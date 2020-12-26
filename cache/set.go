@@ -2,7 +2,7 @@ package cache
 
 import (
 	"fmt"
-	"github.com/parvez0/redis/responses"
+	"github.com/parvez0/go-cache/responses"
 	"sync"
 )
 

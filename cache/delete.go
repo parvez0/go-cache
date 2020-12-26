@@ -1,6 +1,6 @@
 package cache
 
-import "github.com/parvez0/redis/responses"
+import "github.com/parvez0/go-cache/responses"
 
 func Delete(key string) (ops *responses.CurdOp) {
 	ops = &responses.CurdOp{}
