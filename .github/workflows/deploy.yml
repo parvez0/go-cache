@@ -15,8 +15,8 @@ jobs:
         with:
           go-version: 1.16
 
-      - name: Test
-        run: make jenkins_test
+#      - name: Test
+#        run: make jenkins_test
 
   docker:
     name: Publish - Docker Hub
@@ -26,7 +26,7 @@ jobs:
       REPO: ${{ secrets.DOCKER_REPO }}
     steps:
       - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
       - name: Build Docker image
         run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} .
       - name: Publish Docker image
