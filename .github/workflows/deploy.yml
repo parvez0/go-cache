@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.DOCKER_REPO }}:latest,${{ secrets.DOCKER_REPO }}:${{ GITHUB_SHA::8 }}
+          tags: ${{ secrets.DOCKER_REPO }}:latest,${{ secrets.DOCKER_REPO }}:${{ github.sha }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
