@@ -19,20 +19,21 @@ jobs:
 #        run: make jenkins_test
 
   docker:
-    name: Publish - Docker Hub
-    runs-on: ubuntu-18.04
-    needs: [ test ]
-    env:
-      REPO: ${{ secrets.DOCKER_REPO }}
+    runs-on: ubuntu-latest
     steps:
-      - name: list
-        run: ls -al
-      - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-      - name: Build Docker image
-        run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} .
-      - name: Publish Docker image
-        run: docker push $REPO
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ DOCKER_REPO }}:latest, ${{ DOCKER_REPO }}:${GITHUB_SHA::8}
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
 
   redeploy:
     name: Redeploy webhook call
